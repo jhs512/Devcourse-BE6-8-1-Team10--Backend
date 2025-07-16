@@ -1,0 +1,26 @@
+name: Test with Docker Build
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-with-docker-build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: Build Docker image (with tests)
+      run: |
+        docker build -t jhs512/test01:v1 .
+      
+    - name: Verify build success
+      run: |
+        echo "Docker build completed successfully!"
+        echo "Tests passed during build process"
+        docker images jhs512/test01:v1
